@@ -8,6 +8,7 @@
       "coverage/lcov-report/*.js"
     ]
   },
+  "defaultSeverity": "warning",
   "rules": {
     "prettier": true
   }
