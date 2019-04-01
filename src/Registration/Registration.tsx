@@ -1,33 +1,32 @@
-import * as React from 'react';
-import { Component } from 'react';
+import React, { ChangeEventHandler, Component } from 'react';
 import { connect } from 'react-redux';
+import { User, UserType } from '../models';
 import { AppState } from '../redux/configureStore';
 import { addUser } from './redux/userActions';
-import { User } from './User';
 
 type StateProps = {
-  users: User[];
+  users: Record<string, User>;
 };
 
 type DispatchProps = {
   addUser: (user: User) => void;
 };
 
+type Props = StateProps & DispatchProps;
+
 type State = {
   email: string;
   firstName: string;
   surname: string;
-  type: string;
+  type: UserType | null;
 };
-
-type Props = StateProps & DispatchProps;
 
 export class _Registration extends Component<Props, State> {
   public state: State = {
     email: '',
     firstName: '',
     surname: '',
-    type: 'General',
+    type: null,
   };
 
   public render() {
@@ -48,14 +47,11 @@ export class _Registration extends Component<Props, State> {
           placeholder='email'
           onChange={this.onEmailChange}
         />
-        <select value={this.state.type} onChange={this.onTypeChange}>
-          <option>Select...</option>
-          <option value='General'>General</option>
-          <option value='Breeder'>Breeder</option>
-          <option value='Adoption Centre'>Adoption Centre</option>
-          <option value='Walker'>Walker</option>
-          <option value='Owner'>Owner</option>
-          <option value='Sitter'>Sitter</option>
+        <select value={this.state.type || ''} onChange={this.onTypeChange}>
+          <option value=''>Select...</option>
+          {Object.values(UserType).map(userType => (
+            <option value={userType}>{userType}</option>
+          ))}
         </select>
         <button onClick={this.onAddUser}>Submit</button>
         <button onClick={this.onPrint}>Print</button>
@@ -67,44 +63,42 @@ export class _Registration extends Component<Props, State> {
     console.log(this.props.users);
   };
 
-  private onTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    this.setState({ type: event.currentTarget.value });
+  private onTypeChange: ChangeEventHandler<HTMLSelectElement> = event => {
+    const value: UserType | null =
+      (event.currentTarget.value as UserType) || null;
+    this.setState({ type: value });
   };
 
-  private onFirstNameChange = (event: React.FormEvent<HTMLInputElement>) => {
+  private onFirstNameChange: ChangeEventHandler<HTMLInputElement> = event => {
     this.setState({ firstName: event.currentTarget.value });
   };
 
-  private onSurnameChange = (event: React.FormEvent<HTMLInputElement>) => {
+  private onSurnameChange: ChangeEventHandler<HTMLInputElement> = event => {
     this.setState({ surname: event.currentTarget.value });
   };
 
-  private onEmailChange = (event: React.FormEvent<HTMLInputElement>) => {
+  private onEmailChange: ChangeEventHandler<HTMLInputElement> = event => {
     this.setState({ email: event.currentTarget.value });
   };
 
   private onAddUser = () => {
-    return this.props.addUser(this.state);
+    const user = { ...this.state };
+    if (user.type !== null) {
+      // Typescript not registering null check -> as User
+      return this.props.addUser(user as User);
+    }
   };
 }
 
-function mapStateToProps(state: AppState): StateProps {
-  return {
-    users: state.users.users,
-  };
-}
-
-// function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
-//     return {
-//         addUser: (user: User) => dispatch(addUser(user))
-//     }
-// }
+const mapStateToProps = (state: AppState): StateProps => ({
+  users: state.users.users,
+});
 
 const dispatchMap: DispatchProps = {
   addUser,
 };
 
-export const Registration = connect<StateProps, DispatchProps>(
+export const Registration = connect(
   mapStateToProps,
   dispatchMap,
 )(_Registration);
