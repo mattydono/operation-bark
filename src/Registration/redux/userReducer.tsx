@@ -1,12 +1,12 @@
-import { User } from '../User';
+import { User } from '../../models';
 import { ADD_USER, AddUserAction } from './userActions';
 
 export type UsersState = {
-  users: User[];
+  users: Record<string, User>;
 };
 
 const initialState: UsersState = {
-  users: [],
+  users: {},
 };
 
 export function usersReducer(
@@ -15,8 +15,14 @@ export function usersReducer(
 ): UsersState {
   switch (action.type) {
     case ADD_USER:
-      const addUserAction = action as AddUserAction;
-      return { ...state, users: [...state.users, addUserAction.payload!] };
+      const addUserPayload = (action as AddUserAction).payload!;
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          [addUserPayload.email]: addUserPayload,
+        },
+      };
     default:
       return state;
   }
