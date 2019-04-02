@@ -54,14 +54,9 @@ export class _Registration extends Component<Props, State> {
           ))}
         </select>
         <button onClick={this.onAddUser}>Submit</button>
-        <button onClick={this.onPrint}>Print</button>
       </div>
     );
   }
-
-  private onPrint = () => {
-    console.log(this.props.users);
-  };
 
   private onTypeChange: ChangeEventHandler<HTMLSelectElement> = event => {
     const value: UserType | null =
