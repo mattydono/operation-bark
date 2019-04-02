@@ -10,6 +10,8 @@
   },
   "defaultSeverity": "warning",
   "rules": {
-    "prettier": true
+    "prettier": true,
+    "interface-over-type-literal": false,
+    "class-name": false
   }
 }

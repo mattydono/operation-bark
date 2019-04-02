@@ -11,9 +11,15 @@
     "lint": "yarn run lint:check --fix"
   },
   "dependencies": {
+    "emotion": "^10.0.9",
+    "@emotion/core": "^10.0.9",
+    "@emotion/styled": "^10.0.9",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-scripts-ts": "3.1.0"
+    "react-redux": "^6.0.1",
+    "react-scripts-ts": "3.1.0",
+    "redux": "^4.0.1",
+    "redux-actions": "^2.6.5"
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",
@@ -24,6 +30,8 @@
     "lint-staged": "^8.1.5",
     "prettier": "^1.16.4",
     "tslint-plugin-prettier": "^2.0.1",
+    "@types/react-redux": "^7.0.5",
+    "@types/redux-actions": "^2.3.2",
     "typescript": "^3.3.3333"
   },
   "husky": {
