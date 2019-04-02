@@ -21,6 +21,7 @@ export class Login extends Component {
         />
         <input
           placeholder='Password'
+          type='password'
           value={this.state.password}
           onChange={this.onPasswordChange}
         />
