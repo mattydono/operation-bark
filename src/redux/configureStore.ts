@@ -1,9 +1,4 @@
-import {
-  combineReducers,
-  createStore,
-  DeepPartial,
-  ReducersMapObject,
-} from 'redux';
+import { combineReducers, createStore, DeepPartial, ReducersMapObject } from 'redux';
 import { usersReducer, UsersState } from '../Registration/redux/userReducer';
 
 export type AppState = {
