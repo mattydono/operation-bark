@@ -30,20 +30,29 @@ const _Registration = (props: Props) => {
       // Typescript not registering null check -> as User
       return props.addUser(user as User);
     }
-  }, [email, firstName, surname, type, password, confirmPassword]);
-
-  const disabled =
-    type === null ||
-    firstName === '' ||
-    surname === '' ||
-    email === '' ||
-    password === '' ||
-    confirmPassword === '' ||
-    isValid === false;
+  }, [email, firstName, surname, type, password, confirmPassword, props.addUser]);
 
   useEffect(() => {
-    setIsValid(confirmPassword === password);
-  }, [password, confirmPassword]);
+    if (
+      type !== null &&
+      firstName !== '' &&
+      surname !== '' &&
+      email !== '' &&
+      password !== '' &&
+      confirmPassword !== '' &&
+      password === confirmPassword
+    ) {
+      setIsValid(true);
+    }
+  }, [type, firstName, surname, email, password, confirmPassword]);
+
+  const onTypeConversion = useCallback(
+    event => {
+      const { value } = event.currentTarget;
+      onTypeChange(value !== '' ? value : null);
+    },
+    [onTypeChange],
+  );
 
   return (
     <div>
@@ -57,13 +66,13 @@ const _Registration = (props: Props) => {
         placeholder='confirmPassword'
         onChange={onConfirmPasswordChange}
       />
-      <select value={type || ''} onChange={onTypeChange}>
+      <select value={type || ''} onChange={onTypeConversion}>
         <option value=''>Select...</option>
         {Object.values(UserType).map(userType => (
           <option value={userType}>{userType}</option>
         ))}
       </select>
-      <button disabled={disabled} onClick={onAddUser}>
+      <button disabled={!isValid} onClick={onAddUser}>
         Submit
       </button>
     </div>
