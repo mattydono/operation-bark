@@ -9,10 +9,7 @@ const initialState: UsersState = {
   users: {},
 };
 
-export function usersReducer(
-  state: UsersState = initialState,
-  action: AddUserAction,
-): UsersState {
+export function usersReducer(state: UsersState = initialState, action: AddUserAction): UsersState {
   switch (action.type) {
     case ADD_USER:
       const addUserPayload = (action as AddUserAction).payload!;

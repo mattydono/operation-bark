@@ -14,11 +14,7 @@ export class Login extends Component {
   public render() {
     return (
       <div>
-        <input
-          placeholder='Email'
-          value={this.state.email}
-          onChange={this.onEmailChange}
-        />
+        <input placeholder='Email' value={this.state.email} onChange={this.onEmailChange} />
         <input
           placeholder='Password'
           type='password'
